@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Mic, Square, Send } from "lucide-react";
+import { Mic, Square, Send, MessageCircle, Waves } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSpeechRecognition } from "@/Hooks/useSpeechRecognition";
@@ -39,7 +39,7 @@ const Recorder = ({ onTranscriptSubmit }: RecorderProps) => {
         <Input
           value="Speech recognition is not supported in this browser"
           readOnly
-          className="pr-4 py-6 text-base bg-white/5 backdrop-blur-sm border-white/20 text-yellow-400"
+          className="pr-4 py-6 text-base bg-red-500/10 backdrop-blur-sm border-red-500/30 text-red-500 rounded-xl"
         />
       </div>
     );
@@ -47,19 +47,30 @@ const Recorder = ({ onTranscriptSubmit }: RecorderProps) => {
 
   return (
     <div className="relative w-full flex items-center">
+      <div className="absolute left-3 text-slate-400 dark:text-slate-500">
+        <MessageCircle size={20} />
+      </div>
       <Input
         value={transcript}
         readOnly
         placeholder="Your speech will appear here..."
-        className="pr-24 py-6 text-base bg-white/5 backdrop-blur-sm border-white/20"
+        className={`pl-10 pr-24 py-6 text-white text-base bg-white/10 backdrop-blur-sm border-white/20 rounded-xl transition-all duration-300 ${
+          isRecording ? "border-red-500/50 shadow-[0_0_0_1px_rgba(239,68,68,0.2)]" : ""
+        }`}
       />
-      <div className="absolute right-2 flex space-x-2">
+      <div className="absolute right-2 flex items-center space-x-2">
+        {isRecording && (
+          <div className="flex items-center mr-2">
+            <Waves className="h-5 w-5 text-red-500 animate-pulse" />
+          </div>
+        )}
+        
         {!isRecording ? (
           <Button
             onClick={toggleRecording}
             size="icon"
             variant="ghost"
-            className="h-8 w-8 bg-red-500/90 hover:bg-red-600 text-white rounded-full"
+            className="h-10 w-10 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-transform hover:scale-105 active:scale-95"
             title="Start recording"
           >
             <Mic size={18} />
@@ -69,7 +80,7 @@ const Recorder = ({ onTranscriptSubmit }: RecorderProps) => {
             onClick={toggleRecording}
             size="icon"
             variant="ghost"
-            className="h-8 w-8 bg-red-500/90 hover:bg-red-600 text-white rounded-full"
+            className="h-10 w-10 bg-red-500 hover:bg-red-600 text-white rounded-xl shadow-md hover:shadow-lg transition-transform hover:scale-105 active:scale-95"
             title="Stop recording"
           >
             <Square size={14} />
@@ -81,7 +92,7 @@ const Recorder = ({ onTranscriptSubmit }: RecorderProps) => {
             onClick={handleSubmit}
             size="icon"
             variant="ghost"
-            className="h-8 w-8 bg-green-500/90 hover:bg-green-600 text-white rounded-full"
+            className="h-10 w-10 bg-green-500 hover:bg-green-600 text-white rounded-xl shadow-md hover:shadow-lg transition-transform hover:scale-105 active:scale-95"
             title="Submit"
           >
             <Send size={16} />

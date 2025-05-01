@@ -1,5 +1,5 @@
 import React from 'react';
-import { Camera, VideoOff, StopCircle, Video } from "lucide-react";
+import { Camera, VideoOff, StopCircle, Video, Maximize, Minimize } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -35,16 +35,16 @@ export function VideoDisplay({
   recordingUrl
 }: VideoDisplayProps) {
   return (
-    <div className="p-0 relative">
-      <div className="absolute top-4 left-4 bg-black/30 px-3 py-1 rounded-full flex items-center space-x-2 z-10">
-        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+    <div className="p-0 relative overflow-hidden group rounded-t-lg">
+      <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center space-x-2 z-10 shadow-md">
+        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
         <span className="text-white text-xs font-medium">LIVE</span>
       </div>
       
       {/* Recording indicator */}
       {isRecording && (
-        <div className="absolute top-4 right-4 bg-black/30 px-3 py-1 rounded-full flex items-center space-x-2 z-10">
-          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+        <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center space-x-2 z-10 shadow-md animate-pulse-slow">
+          <div className="w-2 h-2 bg-red-500 rounded-full" />
           <span className="text-white text-xs font-medium">REC {formatRecordingTime(recordingTime)}</span>
         </div>
       )}
@@ -55,23 +55,26 @@ export function VideoDisplay({
         playsInline
         muted={true}
         className={cn(
-          "w-full h-[35vh] object-cover bg-black",
-          !videoEnabled && "hidden"
+          "w-full h-[40vh] object-cover bg-black transition-opacity duration-300",
+          !videoEnabled && "opacity-0"
         )}
       />
       
       {!videoEnabled && (
-        <div className="flex items-center justify-center bg-slate-900 w-full h-[35vh]">
-          <VideoOff className="h-16 w-16 text-slate-400" />
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-slate-800 to-slate-900 w-full h-[40vh]">
+          <div className="flex flex-col items-center space-y-2">
+            <VideoOff className="h-16 w-16 text-slate-400" />
+            <span className="text-slate-400 text-sm">Camera disabled</span>
+          </div>
         </div>
       )}
 
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-        <div className="flex justify-center space-x-4 pt-6">
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-80 group-hover:opacity-100 transition-opacity">
+        <div className="flex justify-center space-x-4 pt-4">
           <Button 
             variant="outline" 
             size="icon" 
-            className="rounded-full bg-white/20 hover:bg-white/30 border-white/40"
+            className="rounded-full bg-white/20 hover:bg-white/30 border-white/40 transition-transform hover:scale-110"
             onClick={toggleVideo}
             title={videoEnabled ? "Disable camera" : "Enable camera"}
           >
@@ -86,7 +89,7 @@ export function VideoDisplay({
             <Button 
               variant="outline" 
               size="icon" 
-              className="rounded-full bg-red-500/80 hover:bg-red-600/80 border-white/40"
+              className="rounded-full bg-red-500/80 hover:bg-red-600/80 border-white/40 shadow-lg animate-pulse-slow transition-transform hover:scale-110"
               onClick={stopRecording}
               title="Stop recording"
             >
@@ -96,7 +99,7 @@ export function VideoDisplay({
             <Button 
               variant="outline" 
               size="icon" 
-              className="rounded-full bg-white/20 hover:bg-white/30 border-white/40"
+              className="rounded-full bg-white/20 hover:bg-white/30 border-white/40 transition-transform hover:scale-110"
               onClick={startRecording}
               title="Start recording"
               disabled={!!recordingUrl}
@@ -108,27 +111,15 @@ export function VideoDisplay({
           <Button 
             variant="outline" 
             size="icon" 
-            className="rounded-full bg-white/20 hover:bg-white/30 border-white/40"
+            className="rounded-full bg-white/20 hover:bg-white/30 border-white/40 transition-transform hover:scale-110"
             onClick={toggleFullscreen}
             title="Toggle fullscreen"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-              {isFullscreen ? (
-                <>
-                  <path d="M8 3v4a1 1 0 0 1-1 1H3" />
-                  <path d="M21 8h-4a1 1 0 0 1-1-1V3" />
-                  <path d="M3 16h4a1 1 0 0 1 1 1v4" />
-                  <path d="M16 21v-4a1 1 0 0 1 1-1h4" />
-                </>
-              ) : (
-                <>
-                  <polyline points="15 3 21 3 21 9" />
-                  <polyline points="9 21 3 21 3 15" />
-                  <line x1="21" y1="3" x2="14" y2="10" />
-                  <line x1="3" y1="21" x2="10" y2="14" />
-                </>
-              )}
-            </svg>
+            {isFullscreen ? (
+              <Minimize className="h-5 w-5 text-white" />
+            ) : (
+              <Maximize className="h-5 w-5 text-white" />
+            )}
           </Button>
         </div>
       </div>

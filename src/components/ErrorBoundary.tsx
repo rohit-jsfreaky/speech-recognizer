@@ -1,5 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { AlertCircle } from 'lucide-react';
+import { Component, ErrorInfo, ReactNode } from 'react';
+import { AlertTriangle } from 'lucide-react';
 
 interface Props {
   children: ReactNode;
@@ -21,12 +21,10 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error): State {
-    // Update state so the next render will show the fallback UI.
     return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log the error to an error reporting service
     console.error('Error caught by ErrorBoundary:', error, errorInfo);
   }
 
@@ -36,15 +34,16 @@ class ErrorBoundary extends Component<Props, State> {
         return this.props.fallback;
       }
       
-      // Default error UI
       return (
-        <div className="flex flex-col items-center justify-center h-full p-6 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 rounded-lg">
-          <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
-          <h2 className="text-xl font-semibold mb-2">Something went wrong</h2>
-          <p className="text-center mb-4">{this.state.error?.message || 'An unexpected error occurred'}</p>
+        <div className="flex flex-col items-center justify-center h-full p-6 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 rounded-xl shadow-inner">
+          <div className="bg-red-100 dark:bg-red-900/50 p-3 rounded-full mb-4">
+            <AlertTriangle className="h-8 w-8 text-red-600 dark:text-red-400" />
+          </div>
+          <h2 className="text-xl font-semibold mb-3">Something went wrong</h2>
+          <p className="text-center mb-6 max-w-md">{this.state.error?.message || 'An unexpected error occurred'}</p>
           <button 
             onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-red-100 hover:bg-red-200 dark:bg-red-800 dark:hover:bg-red-700 rounded-md transition-colors"
+            className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
           >
             Refresh the page
           </button>

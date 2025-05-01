@@ -36,9 +36,11 @@ const Loader: React.FC<LoaderProps> = ({
   const borderColorClass = colorMap[color];
 
   return (
-    <div
-      className={`animate-spin rounded-full ${sizeClass} ${thicknessClass} border-t-transparent ${borderColorClass}`}
-    />
+    <div className="flex items-center justify-center">
+      <div
+        className={`animate-spin rounded-full ${sizeClass} ${thicknessClass} border-t-transparent ${borderColorClass} shadow-sm`}
+      />
+    </div>
   );
 };
 
