@@ -1,54 +1,95 @@
-# React + TypeScript + Vite
+# Mock AI Voice Recognition App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React and TypeScript application that simulates an AI voice assistant with video recording capabilities. This app uses browser APIs for speech recognition and camera access to create an interactive experience.
 
-Currently, two official plugins are available:
+![AI Voice Recognition](https://www.datasciencecentral.com/wp-content/uploads/2022/08/AdobeStock_355358427.jpg)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- 🎤 **Speech Recognition**: Convert your speech to text in real-time
+- 🤖 **AI Responses**: Get simulated AI responses to your queries
+- 📹 **Video Recording**: Record your conversation sessions with the AI
+- 🎥 **Camera Controls**: Toggle camera, enter fullscreen mode
+- 🌓 **Responsive Design**: Works on desktop and mobile devices
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Technology Stack
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- [React 19](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/) for fast development and building
+- [TailwindCSS](https://tailwindcss.com/) for styling
+- [Framer Motion](https://www.framer.com/motion/) for animations
+- [Lucide React](https://lucide.dev/) for icons
+
+## Project Structure
+
+The application is organized into several key components:
+
+- **App**: Main entry point that handles permissions and renders appropriate components
+- **CameraVideoPlayback**: Central component that combines video display, conversation, and recording
+- **VideoDisplay**: Handles camera feed and recording controls
+- **Recorder**: Manages speech recognition input
+- **ConversationDisplay**: Shows the conversation history between user and AI
+
+## Key Custom Hooks
+
+- [`useSpeechRecognition`](src/Hooks/useSpeechRecognition.ts): Provides speech recognition capabilities
+- [`useVideoRecorder`](src/Hooks/useVideoRecorder.ts): Manages video recording and playback
+- [`useConversation`](src/Hooks/useConversation.ts): Handles conversation state and AI responses
+
+## App Flow
+
+1. **Permission Request**: The app requests camera and microphone permissions
+2. **Video Interface**: Once permissions are granted, the camera interface is displayed
+3. **Speech Recognition**: Users can speak and see their speech transcribed in real-time
+4. **AI Response**: After submitting speech, the app generates a mock AI response
+5. **Video Recording**: Users can record their entire session and download it
+
+## Running the Project
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm or yarn or pnpm
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/mock-ai-voice-recognizer.git
+
+# Navigate to the project directory
+cd mock-ai-voice-recognizer
+
+# Install dependencies
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+# Start the development server
+npm run dev
 ```
+
+### Build
+
+```bash
+# Build for production
+npm run build
+
+# Preview the production build
+npm run preview
+```
+
+## Browser Compatibility
+
+This application uses modern web APIs including:
+- Web Speech API for speech recognition
+- MediaRecorder API for video recording
+- getUserMedia API for camera access
+
+For best results, use a modern browser like Chrome, Edge, or Firefox.
+
+
+This project was bootstrapped with Vite and uses UI components from the shadcn/ui library.
