@@ -12,7 +12,9 @@ const AppContent = () => {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [loading, setLoading] = useState(true);
   const { setError } = useError();
-  
+
+  const [errorToShow, setErrorToShow] = useState<string | null>(null);
+
   useEffect(() => {
     async function setup() {
       try {
@@ -23,13 +25,15 @@ const AppContent = () => {
         }
       } catch (err) {
         if (err instanceof PermissionError) {
+          setErrorToShow(err.message);
+          console.error("Permission error:", err);
           setPermissionGranted(false);
         } else {
           setError(err instanceof Error ? err : new Error(String(err)));
         }
       }
     }
-    
+
     setup();
   }, [setError]);
 
@@ -48,11 +52,11 @@ const AppContent = () => {
     return (
       <div className="h-screen w-screen">
         <Header />
-        <PermissionStatus status={permissiongranted} />
+        <PermissionStatus status={permissiongranted} error={errorToShow} />
       </div>
     );
   }
-  
+
   return (
     <div className="h-screen w-screen">
       <Header />

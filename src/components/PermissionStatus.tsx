@@ -1,8 +1,20 @@
 import { ShieldAlert, Camera, Mic } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
-const PermissionStatus = ({ status }: { status: boolean }) => {
+const PermissionStatus = ({
+  status,
+  error,
+}: {
+  status: boolean;
+  error: string | null;
+}) => {
+  useEffect(() => {
+    if (error) {
+      console.log("Error occurred:", error);
+    }
+  }, [error]);
   return (
     <div className="flex h-[88%] justify-center items-center p-4">
       {!status && (
@@ -24,8 +36,9 @@ const PermissionStatus = ({ status }: { status: boolean }) => {
 
             <AlertDescription className="flex flex-col space-y-6">
               <p className="text-slate-700 dark:text-slate-300">
-                Camera and microphone access is needed for this application to
-                function properly. Please enable them in your browser settings.
+               {
+               error ? error :
+               "Camera and microphone access is needed for this application to function properly. Please enable them in your browser settings."}
               </p>
 
               <div className="flex flex-col space-y-3">

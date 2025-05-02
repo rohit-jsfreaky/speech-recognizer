@@ -1,5 +1,3 @@
-
-
 export class PermissionError extends Error {
   constructor(message: string) {
     super(message);
@@ -34,8 +32,10 @@ export const requestPermissions = async (
       throw new PermissionError('Camera and microphone access was denied. Please enable them and try again.');
     } else if (err instanceof DOMException && err.name === 'NotFoundError') {
       throw new PermissionError('No camera or microphone found on your device.');
+    } else if (err instanceof DOMException && err.name === 'NotReadableError') {
+      throw new PermissionError('Camera or microphone is already in use by another application. Please close other applications and try again.');
     } else {
-      throw new PermissionError('An error occurred while requesting media permissions.');
+      throw new PermissionError(`An error occurred while requesting media permissions: ${err instanceof Error ? err.message : String(err)}`);
     }
   } finally {
     setLoading(false);
