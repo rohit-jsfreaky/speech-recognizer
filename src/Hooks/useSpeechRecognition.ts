@@ -9,9 +9,6 @@ interface UseSpeechRecognitionReturn {
   isSupported: boolean;
 }
 
-/**
- * Custom hook for speech recognition functionality
- */
 export function useSpeechRecognition(): UseSpeechRecognitionReturn {
   const [transcript, setTranscript] = useState('');
   const [isRecording, setIsRecording] = useState(false);
@@ -20,7 +17,6 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
   const interimTranscriptRef = useRef<string>('');
   const finalTranscriptRef = useRef<string>('');
 
-  // Initialize speech recognition
   useEffect(() => {
     const isBrowserSupported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
     setIsSupported(isBrowserSupported);
@@ -34,20 +30,16 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
         recognitionRef.current.interimResults = true;
         
         recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
-          // Reset the interim transcript for this result batch
           interimTranscriptRef.current = '';
           
-          // Process all results
           for (let i = event.resultIndex; i < event.results.length; i++) {
             const result = event.results[i];
             const transcriptPiece = result[0].transcript;
             
             if (result.isFinal) {
-              // Append to final transcript
               finalTranscriptRef.current += ' ' + transcriptPiece;
               finalTranscriptRef.current = finalTranscriptRef.current.trim();
             } else {
-              // Add to interim transcript
               interimTranscriptRef.current += transcriptPiece;
             }
           }
@@ -63,7 +55,6 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
         };
 
         recognitionRef.current.onend = () => {
-          // Move any remaining interim transcript to final when recording ends
           if (interimTranscriptRef.current) {
             finalTranscriptRef.current += ' ' + interimTranscriptRef.current;
             finalTranscriptRef.current = finalTranscriptRef.current.trim();
@@ -82,11 +73,9 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
     };
   }, []);
   
-  // Start recording function
   const startRecording = useCallback(() => {
     if (!recognitionRef.current || !isSupported) return;
     
-    // Reset transcripts when starting a new recording
     finalTranscriptRef.current = '';
     interimTranscriptRef.current = '';
     setTranscript('');
@@ -95,14 +84,12 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
     setIsRecording(true);
   }, [isSupported]);
   
-  // Stop recording function
   const stopRecording = useCallback(() => {
     if (!recognitionRef.current || !isSupported) return;
     
     recognitionRef.current.stop();
   }, [isSupported]);
-  
-  // Reset transcript function
+
   const resetTranscript = useCallback(() => {
     finalTranscriptRef.current = '';
     interimTranscriptRef.current = '';

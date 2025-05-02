@@ -41,7 +41,6 @@ export function VideoDisplay({
         <span className="text-white text-xs font-medium">LIVE</span>
       </div>
       
-      {/* Recording indicator */}
       {isRecording && (
         <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center space-x-2 z-10 shadow-md animate-pulse-slow">
           <div className="w-2 h-2 bg-red-500 rounded-full" />

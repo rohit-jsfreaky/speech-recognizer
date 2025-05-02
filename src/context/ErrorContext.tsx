@@ -14,7 +14,7 @@ export function ErrorProvider({ children }: { children: ReactNode }) {
   const setError = (error: Error | null) => {
     setErrorState(error);
     
-    // Log errors to console for debugging
+ 
     if (error) {
       console.error('Application error:', error);
     }

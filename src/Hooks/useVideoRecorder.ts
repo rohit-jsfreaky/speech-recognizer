@@ -29,13 +29,11 @@ export function useVideoRecorder({ stream }: UseVideoRecorderProps): UseVideoRec
   useEffect(() => {
     if (!stream || !videoRef.current) return;
     
-    // Set up video playback
     videoRef.current.srcObject = stream;
     videoRef.current.play().catch(error => {
       console.error("Error playing video:", error);
     });
     
-    // Set up media recorder
     try {
       if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
         mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9,opus' });
@@ -52,23 +50,19 @@ export function useVideoRecorder({ stream }: UseVideoRecorderProps): UseVideoRec
       };
       
       mediaRecorderRef.current.onstop = () => {
-        // Create a blob from the recorded chunks
         const blob = new Blob(recordedChunksRef.current, {
           type: mediaRecorderRef.current?.mimeType || 'video/webm'
         });
         
-        // Create a URL for the blob
         const url = URL.createObjectURL(blob);
         setRecordingUrl(url);
         
-        // Reset recording state
         recordedChunksRef.current = [];
       };
     } catch (err) {
       console.error('Error setting up media recorder:', err);
     }
     
-    // Clean up on unmount
     return () => {
       if (mediaRecorderRef.current?.state === 'recording') {
         mediaRecorderRef.current.stop();
@@ -86,17 +80,14 @@ export function useVideoRecorder({ stream }: UseVideoRecorderProps): UseVideoRec
 
   const startRecording = useCallback(() => {
     if (!mediaRecorderRef.current || mediaRecorderRef.current.state !== 'inactive') return;
-    
-    // Reset recording data
+  
     recordedChunksRef.current = [];
     setRecordingUrl(null);
     setRecordingTime(0);
     
-    // Start recording
-    mediaRecorderRef.current.start(1000); // Collect data every second
+    mediaRecorderRef.current.start(1000);
     setIsRecording(true);
     
-    // Start timer
     recordingTimerRef.current = setInterval(() => {
       setRecordingTime(prev => prev + 1);
     }, 1000);
@@ -108,7 +99,6 @@ export function useVideoRecorder({ stream }: UseVideoRecorderProps): UseVideoRec
     mediaRecorderRef.current.stop();
     setIsRecording(false);
     
-    // Stop timer
     if (recordingTimerRef.current) {
       clearInterval(recordingTimerRef.current);
       recordingTimerRef.current = null;

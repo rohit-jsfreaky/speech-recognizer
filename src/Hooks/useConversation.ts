@@ -16,24 +16,20 @@ export function useConversation(): UseConversationReturn {
   const conversationRef = useRef<HTMLDivElement>(null);
 
   const handleTranscriptSubmit = useCallback(async (text: string) => {
-    // Set the user's transcript
     setUserTranscript(text);
     
-    // Clear any previous AI response
     setAIResponse(null);
     
-    // Show loader
+
     setIsProcessing(true);
     
     try {
-      // Wait at least 2 seconds before showing response
       const response = await generateMockAIResponse(text);
       setAIResponse(response);
     } catch (error) {
       console.error("Error generating AI response:", error);
       setAIResponse("Sorry, I couldn't process your request.");
     } finally {
-      // Ensure loader is shown for at least 2 seconds
       setTimeout(() => {
         setIsProcessing(false);
       }, 2000);

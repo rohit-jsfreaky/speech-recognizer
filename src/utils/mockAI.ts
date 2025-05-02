@@ -1,13 +1,7 @@
-/**
- * Generates a mock AI response based on user input
- * @param userInput - The text input from the user
- * @returns A promise that resolves to the AI's response text
- */
+
 export async function generateMockAIResponse(userInput: string): Promise<string> {
-  // Make response generation take at least 2 seconds
   return new Promise((resolve) => {
     setTimeout(() => {
-      // Basic response mapping based on keywords in the input
       const lowerInput = userInput.toLowerCase();
       
       if (lowerInput.includes("hello") || lowerInput.includes("hi")) {
@@ -34,7 +28,6 @@ export async function generateMockAIResponse(userInput: string): Promise<string>
         resolve("Goodbye! Have a great day!");
       }
       else {
-        // General responses for when we don't have a specific match
         const responses = [
           "That's interesting! Tell me more about it.",
           "I understand. Is there anything specific you'd like to know?",

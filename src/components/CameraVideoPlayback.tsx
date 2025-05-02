@@ -43,7 +43,6 @@ const CameraVideoPlayback = ({ stream }: { stream: MediaStream }) => {
     }
   };
 
-  // If we have an error, show it
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-[88%] p-5">
@@ -72,7 +71,6 @@ const CameraVideoPlayback = ({ stream }: { stream: MediaStream }) => {
     <div className="flex flex-col items-center justify-center h-[88%] p-5">
       <ErrorBoundary>
         <Card className="w-full max-w-3xl overflow-hidden border-0 dark:border-slate-800/50 shadow-2xl rounded-2xl bg-white dark:bg-slate-950 transition-all duration-300">
-          {/* Video Section */}
           <VideoDisplay 
             videoRef={videoRef}
             isRecording={isRecording}
@@ -86,7 +84,6 @@ const CameraVideoPlayback = ({ stream }: { stream: MediaStream }) => {
             recordingUrl={recordingUrl}
           />
 
-          {/* Conversation Section */}
           <ConversationDisplay 
             conversationRef={conversationRef}
             userTranscript={userTranscript}
@@ -95,8 +92,6 @@ const CameraVideoPlayback = ({ stream }: { stream: MediaStream }) => {
             recordingUrl={recordingUrl}
             downloadRecording={downloadRecording}
           />
-
-          {/* Input Section */}
           <div className="p-4 bg-slate-900">
             <Recorder onTranscriptSubmit={handleTranscriptSubmit} />
           </div>

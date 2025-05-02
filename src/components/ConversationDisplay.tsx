@@ -20,7 +20,6 @@ export function ConversationDisplay({
   recordingUrl,
   downloadRecording
 }: ConversationDisplayProps) {
-  // Scroll conversation to bottom when new messages appear
   useEffect(() => {
     if (conversationRef.current) {
       conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
