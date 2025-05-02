@@ -22,7 +22,8 @@ const CameraVideoPlayback = ({ stream }: { stream: MediaStream }) => {
     stopRecording,
     downloadRecording,
     videoEnabled,
-    toggleVideo
+    toggleVideo,
+    setRecordingUrl
   } = useVideoRecorder({ stream });
 
   const {
@@ -91,9 +92,10 @@ const CameraVideoPlayback = ({ stream }: { stream: MediaStream }) => {
             isProcessing={isProcessing}
             recordingUrl={recordingUrl}
             downloadRecording={downloadRecording}
+            setRecordingUrl={setRecordingUrl} 
           />
           <div className="p-4 bg-slate-900">
-            <Recorder onTranscriptSubmit={handleTranscriptSubmit} />
+            <Recorder onTranscriptSubmit={handleTranscriptSubmit} setRecordingUrl={setRecordingUrl} recordingUrl={recordingUrl}/>
           </div>
         </Card>
       </ErrorBoundary>

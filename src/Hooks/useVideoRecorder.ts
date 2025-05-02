@@ -14,6 +14,7 @@ interface UseVideoRecorderReturn {
   downloadRecording: () => void;
   videoEnabled: boolean;
   toggleVideo: () => void;
+  setRecordingUrl: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export function useVideoRecorder({ stream }: UseVideoRecorderProps): UseVideoRecorderReturn {
@@ -133,6 +134,7 @@ export function useVideoRecorder({ stream }: UseVideoRecorderProps): UseVideoRec
     stopRecording,
     downloadRecording,
     videoEnabled,
-    toggleVideo
+    toggleVideo,
+    setRecordingUrl
   };
 }

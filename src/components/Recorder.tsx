@@ -6,9 +6,15 @@ import { useSpeechRecognition } from "@/Hooks/useSpeechRecognition";
 
 interface RecorderProps {
   onTranscriptSubmit: (transcript: string) => void;
+  setRecordingUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  recordingUrl: string | null;
 }
 
-const Recorder = ({ onTranscriptSubmit }: RecorderProps) => {
+const Recorder = ({
+  onTranscriptSubmit,
+  setRecordingUrl,
+  recordingUrl,
+}: RecorderProps) => {
   const {
     transcript,
     isRecording,
@@ -22,6 +28,10 @@ const Recorder = ({ onTranscriptSubmit }: RecorderProps) => {
     if (isRecording) {
       stopRecording();
     } else {
+      if (recordingUrl) {
+        setRecordingUrl(null);
+      }
+
       startRecording();
     }
   };
@@ -55,7 +65,9 @@ const Recorder = ({ onTranscriptSubmit }: RecorderProps) => {
         readOnly
         placeholder="Your speech will appear here..."
         className={`pl-10 pr-24 py-6 text-white text-base bg-white/10 backdrop-blur-sm border-white/20 rounded-xl transition-all duration-300 ${
-          isRecording ? "border-red-500/50 shadow-[0_0_0_1px_rgba(239,68,68,0.2)]" : ""
+          isRecording
+            ? "border-red-500/50 shadow-[0_0_0_1px_rgba(239,68,68,0.2)]"
+            : ""
         }`}
       />
       <div className="absolute right-2 flex items-center space-x-2">
@@ -64,7 +76,7 @@ const Recorder = ({ onTranscriptSubmit }: RecorderProps) => {
             <Waves className="h-5 w-5 text-red-500 animate-pulse" />
           </div>
         )}
-        
+
         {!isRecording ? (
           <Button
             onClick={toggleRecording}
